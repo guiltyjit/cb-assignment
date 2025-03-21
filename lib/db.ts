@@ -5,8 +5,6 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import {
   pgTable,
   text,
-  numeric,
-  integer,
   timestamp,
   pgEnum,
   serial
@@ -22,7 +20,7 @@ export const tasks = pgTable('tasks', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description').notNull(),
-  due_date: timestamp('available_at').notNull(),
+  due_date: timestamp('due_date').notNull(),
   in_charged: text('in_charged').notNull(),
   status: taskStatusEnum('status').notNull(),
   created_by: text('created_by').notNull(),
