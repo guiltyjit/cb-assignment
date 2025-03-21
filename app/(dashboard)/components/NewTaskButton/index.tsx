@@ -48,9 +48,8 @@ export default function NewTaskButton() {
           description,
           dueDate,
           status,
-          inCharged: 'jun kit',
-          createdBy: 'jun kit',
-          modifyBy: 'jun kit'
+          // TODO: remove this after using AUTH
+          createdBy: 'jun kit'
         }),
       });
       if (!res.ok) {
@@ -65,6 +64,8 @@ export default function NewTaskButton() {
       toast('Success create new tasks');
       setIsOpen(false);
       reset();
+      // TODO: remove this after state management implemented
+      window.location.reload();
     } catch (err) {
       toast('Failed create new tasks, Server error');
       console.error('Fetch failed:', err);

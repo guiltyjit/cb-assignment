@@ -15,9 +15,7 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const data = await req.json();
-    const { name, description, dueDate, inCharged, status, createdBy } = data;
-
-    console.log('[PUT] => ', { name, description, dueDate, inCharged, status, createdBy });
+    const { name, description, dueDate, status, createdBy } = data;
 
     const result = await db.insert(tasks).values({
       name,
