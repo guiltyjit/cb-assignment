@@ -3,6 +3,7 @@ import { File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import TasksTable from './components/TasksTable';
 import NewTaskButton from './components/NewTaskButton';
+import TaskForm from './components/TaskForm';
 import { getTasks } from '@/lib/db';
 import { Toaster } from 'react-hot-toast';
 
@@ -48,6 +49,7 @@ export default async function ProductsPage(
         />
       </TabsContent>
       <Toaster />
+      <TaskForm/>
     </Tabs>
   );
 }
