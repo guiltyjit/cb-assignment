@@ -30,8 +30,8 @@ export default function TaskTable({
   offset: number;
   totalTasks: number;
 }) {
-  let router = useRouter();
-  let productsPerPage = 5;
+  const router = useRouter();
+  const tasksPerPage = 10;
 
   function prevPage() {
     router.back();
@@ -60,7 +60,7 @@ export default function TaskTable({
               <TableHead>Status</TableHead>
               <TableHead className="hidden md:table-cell">Due Date</TableHead>
               <TableHead className="hidden md:table-cell">
-                Total Sales
+                Created Date
               </TableHead>
               <TableHead className="hidden md:table-cell"><span className="sr-only">Actions</span></TableHead>
             </TableRow>
@@ -77,7 +77,7 @@ export default function TaskTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalTasks) + 1)}-{offset}
+              {Math.max(0, Math.min(offset - tasksPerPage, totalTasks) + 1)}-{offset}
             </strong>{' '}
             of <strong>{totalTasks}</strong> tasks
           </div>
@@ -87,7 +87,7 @@ export default function TaskTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset === productsPerPage}
+              disabled={offset === tasksPerPage}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -97,7 +97,7 @@ export default function TaskTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalTasks}
+              disabled={offset + tasksPerPage > totalTasks}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />

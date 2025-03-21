@@ -1,18 +1,42 @@
 'use client';
 
-import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useTransition, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/icons';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Search } from 'lucide-react';
+import { z } from 'zod';
+
+type SearchFormValues = {
+  q: string;
+};
+
+const schema = z.object({
+  q: z.string()
+});
 
 export function SearchInput() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const keywordSearch = searchParams.get('q') || '';
   const [isPending, startTransition] = useTransition();
+  const { register, reset } = useForm<SearchFormValues>({
+    resolver: zodResolver(schema)
+  });
+
+  useEffect(() => {
+    if (keywordSearch) {
+      reset({
+        q: keywordSearch
+      });
+    }
+  }, [keywordSearch, reset]);
 
   function searchAction(formData: FormData) {
-    let value = formData.get('q') as string;
-    let params = new URLSearchParams({ q: value });
+    const value = formData.get('q') as string;
+    const params = new URLSearchParams({ q: value });
     startTransition(() => {
       router.replace(`/?${params.toString()}`);
     });
@@ -22,9 +46,9 @@ export function SearchInput() {
     <form action={searchAction} className="relative ml-auto flex-1 md:grow-0">
       <Search className="absolute left-2.5 top-[.75rem] h-4 w-4 text-muted-foreground" />
       <Input
-        name="q"
         type="search"
         placeholder="Search..."
+        {...register('q')}
         className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
       />
       {isPending && <Spinner />}
