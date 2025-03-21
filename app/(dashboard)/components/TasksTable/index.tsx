@@ -15,21 +15,21 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Product } from './product';
-import { SelectProduct } from '@/lib/db';
+import Task from './components/task';
+import { SelectTasks } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function ProductsTable({
-  products,
+export default({
+  tasks,
   offset,
-  totalProducts
+  totalTasks
 }: {
-  products: SelectProduct[];
+  tasks: SelectTasks[];
   offset: number;
-  totalProducts: number;
-}) {
+  totalTasks: number;
+}) => {
   let router = useRouter();
   let productsPerPage = 5;
 
@@ -69,8 +69,8 @@ export function ProductsTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
-              <Product key={product.id} product={product} />
+            {tasks.map((task) => (
+              <Task key={task.id} task={task} />
             ))}
           </TableBody>
         </Table>
@@ -80,9 +80,9 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(0, Math.min(offset - productsPerPage, totalProducts) + 1)}-{offset}
+              {Math.max(0, Math.min(offset - productsPerPage, totalTasks) + 1)}-{offset}
             </strong>{' '}
-            of <strong>{totalProducts}</strong> products
+            of <strong>{totalTasks}</strong> tasks
           </div>
           <div className="flex">
             <Button
@@ -100,7 +100,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="submit"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={offset + productsPerPage > totalTasks}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />

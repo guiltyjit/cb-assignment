@@ -1,9 +1,9 @@
 'use server';
 
-import { deleteProductById } from '@/lib/db';
+import { deleteTasksById } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
-export async function deleteProduct(formData: FormData) {
+export async function deleteTasks(formData: FormData) {
   // let id = Number(formData.get('id'));
   // await deleteProductById(id);
   // revalidatePath('/');

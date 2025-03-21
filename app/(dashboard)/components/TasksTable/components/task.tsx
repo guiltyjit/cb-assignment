@@ -10,31 +10,22 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
-import { SelectProduct } from '@/lib/db';
-import { deleteProduct } from './actions';
+import { SelectTasks } from '@/lib/db';
+import { deleteTasks } from '../../../actions';
 
-export function Product({ product }: { product: SelectProduct }) {
+export default ({ task: {name, description,due_date, status, created_on} }: { task: SelectTasks }) => {
   return (
     <TableRow>
-      <TableCell className="hidden sm:table-cell">
-        <Image
-          alt="Product image"
-          className="aspect-square rounded-md object-cover"
-          height="64"
-          src={product.imageUrl}
-          width="64"
-        />
-      </TableCell>
-      <TableCell className="font-medium">{product.name}</TableCell>
+      <TableCell className="font-medium">{name}</TableCell>
+      <TableCell className="font-medium">{description}</TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
-          {product.status}
+          {status}
         </Badge>
       </TableCell>
-      <TableCell className="hidden md:table-cell">{`$${product.price}`}</TableCell>
-      <TableCell className="hidden md:table-cell">{product.stock}</TableCell>
+      <TableCell className="font-medium">{`$${due_date.toLocaleDateString("en-US")}`}</TableCell>
       <TableCell className="hidden md:table-cell">
-        {product.availableAt.toLocaleDateString("en-US")}
+        {created_on.toLocaleDateString("en-US")}
       </TableCell>
       <TableCell>
         <DropdownMenu>
@@ -48,7 +39,7 @@ export function Product({ product }: { product: SelectProduct }) {
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <DropdownMenuItem>
-              <form action={deleteProduct}>
+              <form action={deleteTasks}>
                 <button type="submit">Delete</button>
               </form>
             </DropdownMenuItem>
