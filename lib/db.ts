@@ -14,6 +14,8 @@ import { createInsertSchema } from 'drizzle-zod';
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
+const PAGE_SIZE = 10;
+
 export const taskStatusEnum = pgEnum('task_status', ['active', 'inactive', 'archived']);
 
 export const tasks = pgTable('tasks', {
@@ -58,8 +60,8 @@ export async function getTasks(
   }
 
   let totalTasks = await db.select({ count: count() }).from(tasks);
-  let moreTasks = await db.select().from(tasks).limit(5).offset(offset);
-  let newOffset = moreTasks.length >= 5 ? offset + 5 : null;
+  let moreTasks = await db.select().from(tasks).limit(PAGE_SIZE).offset(offset);
+  let newOffset = moreTasks.length >= PAGE_SIZE ? offset + PAGE_SIZE : null;
 
   return {
     tasks: moreTasks,
