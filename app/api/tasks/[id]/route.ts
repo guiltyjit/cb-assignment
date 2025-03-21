@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const data = await req.json();
-    const { name, description, dueDate, inCharged, status, modifyBy } = data;
+    const { name, description, dueDate } = data;
 
     const result = await db
       .update(tasks)
@@ -21,9 +21,6 @@ export async function POST(req: Request) {
         name,
         description,
         due_date: new Date(dueDate),
-        in_charged: inCharged,
-        status,
-        modify_by: modifyBy,
         last_modify_on: new Date()
       })
       .where(eq(tasks.id, Number(id)));

@@ -21,11 +21,8 @@ export async function PUT(req: Request) {
       name,
       description,
       due_date: new Date(dueDate),
-      in_charged: createdBy,
-      status: status,
       created_by: createdBy,
       created_on: new Date(),
-      modify_by: createdBy,
       last_modify_on: new Date()
     });
 

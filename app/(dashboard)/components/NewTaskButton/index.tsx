@@ -12,16 +12,12 @@ type TaskFormValues = {
   name: string;
   description: string;
   dueDate: string;
-  status: 'active' | 'inactive' | 'archived';
 };
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
   description: z.string().min(1, 'Description is required'),
   dueDate: z.string().min(1, 'Due date is required'),
-  status: z.enum(['active', 'inactive', 'archived'], {
-    errorMap: () => ({ message: 'Status is required' }),
-  }),
 });
 
 export default function NewTaskButton() {
@@ -36,7 +32,7 @@ export default function NewTaskButton() {
     resolver: zodResolver(schema)
   });
 
-  const onSubmit = async ({name, description, dueDate, status}: TaskFormValues) => {
+  const onSubmit = async ({name, description, dueDate}: TaskFormValues) => {
     try {
       const res = await fetch('/api/tasks', {
         method: 'PUT',
@@ -47,7 +43,6 @@ export default function NewTaskButton() {
           name,
           description,
           dueDate,
-          status,
           // TODO: remove this after using AUTH
           createdBy: 'jun kit'
         }),
@@ -117,19 +112,6 @@ export default function NewTaskButton() {
                 <p className="text-red-500 text-sm">
                   {errors.dueDate?.message}
                 </p>
-              </div>
-
-              <div>
-                <select
-                  {...register('status')}
-                  className="w-full border px-3 py-2 rounded"
-                >
-                  <option value="">Select status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                  <option value="archived">Archived</option>
-                </select>
-                <p className="text-red-500 text-sm">{errors.status?.message}</p>
               </div>
 
               <div className="flex justify-end gap-2">

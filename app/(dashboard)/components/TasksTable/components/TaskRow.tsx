@@ -13,14 +13,14 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { SelectTasks } from '@/lib/db';
 import { deleteTasks } from '../../../actions';
 
-export default function TaskRow ({ task: {name, description,due_date, status, created_on} }: { task: SelectTasks }) {
+export default function TaskRow ({ task: {name, description, due_date, status, created_on} }: { task: SelectTasks }) {
   return (
     <TableRow>
       <TableCell className="font-medium">{name}</TableCell>
       <TableCell className="font-medium">{description}</TableCell>
       <TableCell>
         <Badge variant="outline" className="capitalize">
-          {status}
+          {status as string}
         </Badge>
       </TableCell>
       <TableCell className="font-medium">{due_date.toLocaleDateString("en-US")}</TableCell>
