@@ -15,13 +15,13 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import Task from './components/task';
+import TaskRow from './components/TaskRow';
 import { SelectTasks } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export default({
+export default function TaskTable({
   tasks,
   offset,
   totalTasks
@@ -29,7 +29,7 @@ export default({
   tasks: SelectTasks[];
   offset: number;
   totalTasks: number;
-}) => {
+}) {
   let router = useRouter();
   let productsPerPage = 5;
 
@@ -44,9 +44,9 @@ export default({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Products</CardTitle>
+        <CardTitle>Tasks</CardTitle>
         <CardDescription>
-          Manage your products and view their sales performance.
+          Manage your task and view their due date and status.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -54,23 +54,20 @@ export default({
           <TableHeader>
             <TableRow>
               <TableHead className="hidden w-[100px] sm:table-cell">
-                <span className="sr-only">Image</span>
+                Name
               </TableHead>
-              <TableHead>Name</TableHead>
+              <TableHead>Description</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">Price</TableHead>
+              <TableHead className="hidden md:table-cell">Due Date</TableHead>
               <TableHead className="hidden md:table-cell">
                 Total Sales
               </TableHead>
-              <TableHead className="hidden md:table-cell">Created at</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
+              <TableHead className="hidden md:table-cell"><span className="sr-only">Actions</span></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {tasks.map((task) => (
-              <Task key={task.id} task={task} />
+              <TaskRow key={task.id} task={task} />
             ))}
           </TableBody>
         </Table>

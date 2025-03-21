@@ -13,7 +13,7 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import { SelectTasks } from '@/lib/db';
 import { deleteTasks } from '../../../actions';
 
-export default ({ task: {name, description,due_date, status, created_on} }: { task: SelectTasks }) => {
+export default function TaskRow ({ task: {name, description,due_date, status, created_on} }: { task: SelectTasks }) {
   return (
     <TableRow>
       <TableCell className="font-medium">{name}</TableCell>
@@ -23,7 +23,7 @@ export default ({ task: {name, description,due_date, status, created_on} }: { ta
           {status}
         </Badge>
       </TableCell>
-      <TableCell className="font-medium">{`$${due_date.toLocaleDateString("en-US")}`}</TableCell>
+      <TableCell className="font-medium">{due_date.toLocaleDateString("en-US")}</TableCell>
       <TableCell className="hidden md:table-cell">
         {created_on.toLocaleDateString("en-US")}
       </TableCell>

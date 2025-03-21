@@ -17,11 +17,13 @@ export async function PUT(req: Request) {
     const data = await req.json();
     const { name, description, dueDate, inCharged, status, createdBy } = data;
 
+    console.log('[PUT] => ', { name, description, dueDate, inCharged, status, createdBy });
+
     const result = await db.insert(tasks).values({
       name,
       description,
       due_date: new Date(dueDate),
-      in_charged: inCharged,
+      in_charged: createdBy,
       status: status,
       created_by: createdBy,
       created_on: new Date(),

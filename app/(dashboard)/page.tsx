@@ -1,8 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { File, PlusCircle } from 'lucide-react';
+import { File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import TasksTable from './components/TasksTable';
+import NewTaskButton from './components/NewTaskButton';
 import { getTasks } from '@/lib/db';
+import { Toaster } from 'react-hot-toast';
 
 export default async function ProductsPage(
   props: {
@@ -35,12 +37,7 @@ export default async function ProductsPage(
               Export
             </span>
           </Button>
-          <Button size="sm" className="h-8 gap-1">
-            <PlusCircle className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Add Product
-            </span>
-          </Button>
+          <NewTaskButton />
         </div>
       </div>
       <TabsContent value="all">
@@ -50,6 +47,7 @@ export default async function ProductsPage(
           totalTasks={totalTasks}
         />
       </TabsContent>
+      <Toaster />
     </Tabs>
   );
 }
