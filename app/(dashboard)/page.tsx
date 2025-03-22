@@ -18,7 +18,7 @@ export default async function TasksPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const { keywordSearch = '', offset = '0', sortBy, orderBy } = searchParams;
-  const { tasks, totalTasks } = await getTasks({
+  const { all, notUrgent, dueSoon, overdue } = await getTasks({
     keywordSearch,
     offset: Number(offset),
     sortBy,
@@ -45,28 +45,16 @@ export default async function TasksPage(props: {
         </div>
       </div>
       <TabsContent value="all">
-        <TasksTable
-          tasks={tasks}
-          totalTasks={totalTasks}
-        />
+        <TasksTable {...all} />
       </TabsContent>
       <TabsContent value="notUrgent">
-        <TasksTable
-          tasks={tasks.filter(({status})=>status === 'Not Urgent')}
-          totalTasks={totalTasks}
-        />
+        <TasksTable {...notUrgent} />
       </TabsContent>
       <TabsContent value="dueSoon">
-        <TasksTable
-          tasks={tasks.filter(({status})=>status === 'Due Soon')}
-          totalTasks={totalTasks}
-        />
+        <TasksTable {...dueSoon} />
       </TabsContent>
       <TabsContent value="overdue">
-        <TasksTable
-          tasks={tasks.filter(({status})=>status === 'Overdue')}
-          totalTasks={totalTasks}
-        />
+        <TasksTable {...overdue} />
       </TabsContent>
       <Toaster />
       <TaskForm />
