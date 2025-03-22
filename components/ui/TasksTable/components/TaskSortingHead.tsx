@@ -1,6 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
 import { TableHead } from '@/components/ui/table';
 import type { SortingKey, OrderState } from '@/lib/types';
 import { useSearchParams } from 'next/navigation';
@@ -21,7 +20,6 @@ export default function TaskSortingHead({ sortKey }: { sortKey: SortingKey }) {
   const orderBy: OrderState = allParams?.['orderBy'] === 'acs' ? 'desc' : 'acs';
 
   return (
-    <Suspense>
       <TableHead className="hidden md:table-cell">
         <Link
           className="flex items-center min-h-[25px] gap-3"
@@ -37,6 +35,5 @@ export default function TaskSortingHead({ sortKey }: { sortKey: SortingKey }) {
             allParams?.['sortBy'] === sortKey && <ArrowBigUp />}
         </Link>
       </TableHead>
-    </Suspense>
   );
 }

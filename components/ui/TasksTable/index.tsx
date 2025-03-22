@@ -1,6 +1,5 @@
 'use client';
 
-import { Suspense } from 'react';
 import {
   TableHead,
   TableRow,
@@ -43,7 +42,6 @@ export default function TaskTable({
   const hasPreviousPage = prevOffSet >= 0;
 
   return (
-    <Suspense>
       <Card>
         <CardHeader>
           <CardTitle>Tasks</CardTitle>
@@ -121,6 +119,5 @@ export default function TaskTable({
           </form>
         </CardFooter>
       </Card>
-    </Suspense>
   );
 }

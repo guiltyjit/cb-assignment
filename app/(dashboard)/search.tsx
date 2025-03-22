@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition, useEffect, Suspense } from 'react';
+import { useTransition, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/icons';
@@ -43,7 +43,6 @@ export function SearchInput() {
   }
 
   return (
-    <Suspense>
       <form action={searchAction} className="relative ml-auto flex-1 md:grow-0">
         <Search className="absolute left-2.5 top-[.75rem] h-4 w-4 text-muted-foreground" />
         <Input
@@ -54,6 +53,5 @@ export function SearchInput() {
         />
         {isPending && <Spinner />}
       </form>
-    </Suspense>
   );
 }
