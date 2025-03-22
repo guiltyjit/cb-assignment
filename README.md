@@ -47,3 +47,13 @@ pnpm dev
 ```
 
 You should now be able to access the application at http://localhost:3000.
+
+Trello board for the project progress
+https://trello.com/c/WlWugtSC/9-cb-0009-documentation-on-read-me
+
+
+Website on public
+https://cb-assignment-teal.vercel.app/
+
+Things are missing and can be better:
+- Setup queue system correctly to handle high traffic

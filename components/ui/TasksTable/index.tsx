@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import {
   TableHead,
   TableRow,
@@ -42,82 +43,84 @@ export default function TaskTable({
   const hasPreviousPage = prevOffSet >= 0;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Tasks</CardTitle>
-        <CardDescription>
-          Manage your task and view their due date and status.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="hidden w-[100px] sm:table-cell">
-                Name
-              </TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Status</TableHead>
-              <TaskSortingHead sortKey="due_date" />
-              <TaskSortingHead sortKey="created_on" />
-              <TableHead className="hidden md:table-cell">
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {tasks.map((task) => (
-              <TaskRow key={task.id} task={task} />
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-      <CardFooter>
-        <form className="flex items-center w-full justify-between">
-          <div className="text-xs text-muted-foreground">
-            Showing{' '}
-            <strong>
-              {Math.max(0, Math.min(offset - tasksPerPage, totalTasks) + 1)}-
-              {offset}
-            </strong>{' '}
-            of <strong>{totalTasks}</strong> tasks
-          </div>
-          <div className="flex gap-10">
-            <Link
-              href={{
-                pathname: '/',
-                query: { ...allParams, offset: prevOffSet }
-              }}
-              className={`flex items-center gap-3 ${!hasPreviousPage && 'text-gray-300 cursor-default'}`}
-              aria-disabled={!hasPreviousPage}
-              onClick={(e)=>{
-                if(!hasPreviousPage){
-                  e.preventDefault()
-                }
-              }}
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Prev
-            </Link>
-            <Link
-              href={{
-                pathname: '/',
-                query: { ...allParams, offset: nextOffSet }
-              }}
-              className={`flex items-center gap-3 ${!hasNextPage && 'text-gray-300 cursor-default'}`}
-              aria-disabled={!hasNextPage}
-              onClick={(e)=>{
-                if(!hasNextPage){
-                  e.preventDefault()
-                }
-              }}
-            >
-              Next
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Link>
-          </div>
-        </form>
-      </CardFooter>
-    </Card>
+    <Suspense>
+      <Card>
+        <CardHeader>
+          <CardTitle>Tasks</CardTitle>
+          <CardDescription>
+            Manage your task and view their due date and status.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="hidden w-[100px] sm:table-cell">
+                  Name
+                </TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Status</TableHead>
+                <TaskSortingHead sortKey="due_date" />
+                <TaskSortingHead sortKey="created_on" />
+                <TableHead className="hidden md:table-cell">
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tasks.map((task) => (
+                <TaskRow key={task.id} task={task} />
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter>
+          <form className="flex items-center w-full justify-between">
+            <div className="text-xs text-muted-foreground">
+              Showing{' '}
+              <strong>
+                {Math.max(0, Math.min(offset - tasksPerPage, totalTasks) + 1)}-
+                {offset}
+              </strong>{' '}
+              of <strong>{totalTasks}</strong> tasks
+            </div>
+            <div className="flex gap-10">
+              <Link
+                href={{
+                  pathname: '/',
+                  query: { ...allParams, offset: prevOffSet }
+                }}
+                className={`flex items-center gap-3 ${!hasPreviousPage && 'text-gray-300 cursor-default'}`}
+                aria-disabled={!hasPreviousPage}
+                onClick={(e) => {
+                  if (!hasPreviousPage) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                <ChevronLeft className="mr-2 h-4 w-4" />
+                Prev
+              </Link>
+              <Link
+                href={{
+                  pathname: '/',
+                  query: { ...allParams, offset: nextOffSet }
+                }}
+                className={`flex items-center gap-3 ${!hasNextPage && 'text-gray-300 cursor-default'}`}
+                aria-disabled={!hasNextPage}
+                onClick={(e) => {
+                  if (!hasNextPage) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                Next
+                <ChevronRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
+          </form>
+        </CardFooter>
+      </Card>
+    </Suspense>
   );
 }
