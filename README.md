@@ -57,3 +57,5 @@ https://cb-assignment-teal.vercel.app/
 
 Things are missing and can be better:
 - Setup queue system correctly to handle high traffic
+- Auth step up
+- Unit testing and End-to-End testing
