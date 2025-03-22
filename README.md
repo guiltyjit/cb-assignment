@@ -57,5 +57,8 @@ https://cb-assignment-teal.vercel.app/
 
 Things are missing and can be better:
 - Setup queue system correctly to handle high traffic
-- Auth step up
+- Auth and user table setup
 - Unit testing and End-to-End testing
+- Code clean up
+- Implementation on React Query, so can be reload individually instead of whole page reload
+- Locale Implementation
