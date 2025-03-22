@@ -1,14 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { File } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import TasksTable from './components/TasksTable';
-import NewTaskButton from './components/NewTaskButton';
-import TaskForm from './components/TaskForm';
+import TasksTable from '../../components/ui/TasksTable';
+import NewTaskButton from '../../components/ui/NewTaskButton';
+import TaskForm from '../../components/ui/TaskForm';
 import { getTasks } from '@/lib/db';
 import type { SortingKey, OrderState } from '@/lib/types';
 import { Toaster } from 'react-hot-toast';
 
-export default async function ProductsPage(props: {
+export default async function TasksPage(props: {
   searchParams: Promise<{
     keywordSearch: string;
     offset: string;
