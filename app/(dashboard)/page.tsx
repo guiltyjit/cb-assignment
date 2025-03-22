@@ -5,20 +5,25 @@ import TasksTable from './components/TasksTable';
 import NewTaskButton from './components/NewTaskButton';
 import TaskForm from './components/TaskForm';
 import { getTasks } from '@/lib/db';
+import type { SortingKey, OrderState } from '@/lib/types';
 import { Toaster } from 'react-hot-toast';
 
-export default async function ProductsPage(
-  props: {
-    searchParams: Promise<{ q: string; offset: string }>;
-  }
-) {
+export default async function ProductsPage(props: {
+  searchParams: Promise<{
+    keywordSearch: string;
+    offset: string;
+    sortBy: SortingKey;
+    orderBy: OrderState;
+  }>;
+}) {
   const searchParams = await props.searchParams;
-  const search = searchParams.q ?? '';
-  const offset = searchParams.offset ?? 0;
-  const { tasks, newOffset, totalTasks } = await getTasks(
-    search,
-    Number(offset)
-  );
+  const { keywordSearch = '', offset = '0', sortBy, orderBy } = searchParams;
+  const { tasks, newOffset, totalTasks } = await getTasks({
+    keywordSearch,
+    offset: Number(offset),
+    sortBy,
+    orderBy
+  });
 
   return (
     <Tabs defaultValue="all">
@@ -49,7 +54,7 @@ export default async function ProductsPage(
         />
       </TabsContent>
       <Toaster />
-      <TaskForm/>
+      <TaskForm />
     </Tabs>
   );
 }

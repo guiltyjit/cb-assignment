@@ -10,17 +10,17 @@ import { Search } from 'lucide-react';
 import { z } from 'zod';
 
 type SearchFormValues = {
-  q: string;
+  keywordSearch: string;
 };
 
 const schema = z.object({
-  q: z.string()
+  keywordSearch: z.string()
 });
 
 export function SearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const keywordSearch = searchParams.get('q') || '';
+  const keywordSearch = searchParams.get('keywordSearch') || '';
   const [isPending, startTransition] = useTransition();
   const { register, reset } = useForm<SearchFormValues>({
     resolver: zodResolver(schema)
@@ -29,7 +29,7 @@ export function SearchInput() {
   useEffect(() => {
     if (keywordSearch) {
       reset({
-        q: keywordSearch
+        keywordSearch: keywordSearch
       });
     }
   }, [keywordSearch, reset]);
@@ -48,7 +48,7 @@ export function SearchInput() {
       <Input
         type="search"
         placeholder="Search..."
-        {...register('q')}
+        {...register('keywordSearch')}
         className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
       />
       {isPending && <Spinner />}

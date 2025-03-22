@@ -3,9 +3,10 @@ import 'server-only';
 import { sql } from 'drizzle-orm';
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { pgTable, text, timestamp, serial } from 'drizzle-orm/pg-core';
-import { count, eq, ilike } from 'drizzle-orm';
+import { pgTable, text, timestamp, serial, type PgColumn } from 'drizzle-orm/pg-core';
+import { count, eq, ilike, desc } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
+import type { SortingKey, OrderState } from './types'
 
 export const db = drizzle(neon(process.env.POSTGRES_URL!));
 
@@ -24,10 +25,14 @@ export const tasks = pgTable('tasks', {
 export type SelectTasks = typeof tasks.$inferSelect & { status: unknown };
 export const insertTasksSchema = createInsertSchema(tasks);
 
-export async function getTasks(
-  search: string,
-  offset: number
-): Promise<{
+interface GetTasksProps {
+  keywordSearch?: string,
+  offset?: number,
+  orderBy?: OrderState
+  sortBy?: SortingKey
+}
+
+export async function getTasks({keywordSearch, offset = 0, sortBy, orderBy}:GetTasksProps): Promise<{
   tasks: SelectTasks[];
   newOffset: number | null;
   totalTasks: number;
@@ -50,22 +55,18 @@ export async function getTasks(
     `.as('status')
     })
     .from(tasks);
-  // Always search the full table, not per page
-  if (search) {
-    return {
-      tasks: await dbSelect
-        .where(ilike(tasks.name, `%${search}%`))
-        .limit(PAGE_SIZE),
-      newOffset: null,
-      totalTasks: 0
-    };
+
+  const totalSelect =  db.select({ count: count() }).from(tasks)
+
+  if (keywordSearch) {
+    dbSelect.where(ilike(tasks.name, `%${keywordSearch}%`));
+    totalSelect.where(ilike(tasks.name, `%${keywordSearch}%`));
+  }
+  if (sortBy){
+    dbSelect.orderBy(orderBy === 'desc'? desc(tasks[sortBy]): tasks[sortBy])
   }
 
-  if (offset === null) {
-    return { tasks: [], newOffset: null, totalTasks: 0 };
-  }
-
-  const totalTasks = await db.select({ count: count() }).from(tasks);
+  const totalTasks = await totalSelect;
   const moreTasks = await dbSelect.limit(PAGE_SIZE).offset(offset);
   const newOffset = totalTasks.length >= PAGE_SIZE ? offset + PAGE_SIZE : 0;
 

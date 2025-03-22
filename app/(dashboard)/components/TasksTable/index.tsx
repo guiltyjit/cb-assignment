@@ -20,6 +20,7 @@ import { SelectTasks } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import TaskSortingHead from './components/TaskSortingHead';
 
 export default function TaskTable({
   tasks,
@@ -58,10 +59,8 @@ export default function TaskTable({
               </TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="hidden md:table-cell">Due Date</TableHead>
-              <TableHead className="hidden md:table-cell">
-                Created Date
-              </TableHead>
+              <TaskSortingHead sortKey="due_date"/>
+              <TaskSortingHead sortKey="created_on"/>
               <TableHead className="hidden md:table-cell"><span className="sr-only">Actions</span></TableHead>
             </TableRow>
           </TableHeader>
