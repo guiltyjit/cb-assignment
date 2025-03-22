@@ -18,7 +18,7 @@ export default async function TasksPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const { keywordSearch = '', offset = '0', sortBy, orderBy } = searchParams;
-  const { tasks, newOffset, totalTasks } = await getTasks({
+  const { tasks, totalTasks } = await getTasks({
     keywordSearch,
     offset: Number(offset),
     sortBy,
@@ -30,11 +30,9 @@ export default async function TasksPage(props: {
       <div className="flex items-center">
         <TabsList>
           <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="active">Active</TabsTrigger>
-          <TabsTrigger value="draft">Draft</TabsTrigger>
-          <TabsTrigger value="archived" className="hidden sm:flex">
-            Archived
-          </TabsTrigger>
+          <TabsTrigger value="notUrgent">Not Urgent</TabsTrigger>
+          <TabsTrigger value="dueSoon">Due Soon</TabsTrigger>
+          <TabsTrigger value="overdue">Overdue</TabsTrigger>
         </TabsList>
         <div className="ml-auto flex items-center gap-2">
           <Button size="sm" variant="outline" className="h-8 gap-1">
@@ -49,7 +47,24 @@ export default async function TasksPage(props: {
       <TabsContent value="all">
         <TasksTable
           tasks={tasks}
-          offset={newOffset ?? 0}
+          totalTasks={totalTasks}
+        />
+      </TabsContent>
+      <TabsContent value="notUrgent">
+        <TasksTable
+          tasks={tasks.filter(({status})=>status === 'Not Urgent')}
+          totalTasks={totalTasks}
+        />
+      </TabsContent>
+      <TabsContent value="dueSoon">
+        <TasksTable
+          tasks={tasks.filter(({status})=>status === 'Due Soon')}
+          totalTasks={totalTasks}
+        />
+      </TabsContent>
+      <TabsContent value="overdue">
+        <TasksTable
+          tasks={tasks.filter(({status})=>status === 'Overdue')}
           totalTasks={totalTasks}
         />
       </TabsContent>

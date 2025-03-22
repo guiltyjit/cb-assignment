@@ -34,7 +34,6 @@ interface GetTasksProps {
 
 export async function getTasks({keywordSearch, offset = 0, sortBy, orderBy}:GetTasksProps): Promise<{
   tasks: SelectTasks[];
-  newOffset: number | null;
   totalTasks: number;
 }> {
   const dbSelect = db
@@ -67,12 +66,10 @@ export async function getTasks({keywordSearch, offset = 0, sortBy, orderBy}:GetT
   }
 
   const totalTasks = await totalSelect;
-  const moreTasks = await dbSelect.limit(PAGE_SIZE).offset(offset);
-  const newOffset = totalTasks.length >= PAGE_SIZE ? offset + PAGE_SIZE : 0;
+  const currentPageTasks = await dbSelect.limit(PAGE_SIZE).offset(offset);
 
   return {
-    tasks: moreTasks,
-    newOffset,
+    tasks: currentPageTasks,
     totalTasks: totalTasks[0].count
   };
 }
